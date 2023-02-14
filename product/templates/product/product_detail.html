@@ -43,18 +43,21 @@
                                 <label class="details-label off">-10%</label>
                             </div>
                             <ul class="details-preview"> 
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
+                                
+                                {% for image in object.product_images.all  %}
+                                <li><img src="{{image.image.url}}" alt="product"></li>
+                                   
+                                {% endfor %}
+                                    
+                  
                             </ul>
                             <ul class="details-thumb">
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
-                                <li><img src="images/product/01.jpg" alt="product"></li>
+                                
+                                {% for image in object.product_images.all  %}
+                                <li><img src="{{image.image.url}}" alt="product"></li>
+                                   
+                                {% endfor %}
+                            
                             </ul>
                         </div>
                     </div>
@@ -103,9 +106,12 @@
                             <div class="details-list-group">
                                 <label class="details-list-title">tags:</label>
                                 <ul class="details-tag-list">
-                                    <li><a href="#">organic</a></li>
-                                    <li><a href="#">fruits</a></li>
-                                    <li><a href="#">chilis</a></li>
+                                    
+                                    {% for tag in object.tags.all  %}
+                                        <li><a href="#">{{tag}}</a></li>   
+                                    {% endfor %}
+                                        
+
                                 </ul>
                             </div>
                             <div class="details-list-group">
@@ -165,14 +171,16 @@
                         <div class="product-details-frame">
                             <h3 class="frame-title">Reviews (2)</h3>
                             <ul class="review-list">
+                                
+                                {% for item in object.product_review.all  %}
                                 <li class="review-item">
                                     <div class="review-media">
                                         <a class="review-avatar" href="#">
                                             <img src="images/avatar/01.jpg" alt="review">
                                         </a>
                                         <h5 class="review-meta">
-                                            <a href="#">miron mahmud</a>
-                                            <span>June 02, 2020</span>
+                                            <a href="#">{{item.user}}</a>
+                                            <span>{{item.date}}</span>
                                         </h5>
                                     </div>
                                     <ul class="review-rating">
@@ -182,69 +190,13 @@
                                         <li class="icofont-ui-rating"></li>
                                         <li class="icofont-ui-rate-blank"></li>
                                     </ul>
-                                    <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                    <form class="review-reply">
-                                        <input type="text" placeholder="reply your thoughts">
-                                        <button><i class="icofont-reply"></i>reply</button>
-                                    </form>
-                                    <ul class="review-reply-list">
-                                        <li class="review-reply-item">
-                                            <div class="review-media">
-                                                <a class="review-avatar" href="#">
-                                                    <img src="images/avatar/02.jpg" alt="review">
-                                                </a>
-                                                <h5 class="review-meta">
-                                                    <a href="#">labonno khan</a>
-                                                    <span><b>author -</b> June 02, 2020</span>
-                                                </h5>
-                                            </div>
-                                            <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                            <form class="review-reply">
-                                                <input type="text" placeholder="reply your thoughts">
-                                                <button><i class="icofont-reply"></i>reply</button>
-                                            </form>
-                                        </li>
-                                        <li class="review-reply-item">
-                                            <div class="review-media">
-                                                <a class="review-avatar" href="#">
-                                                    <img src="images/avatar/03.jpg" alt="review">
-                                                </a>
-                                                <h5 class="review-meta">
-                                                    <a href="#">tahmina bonny</a>
-                                                    <span>June 02, 2020</span>
-                                                </h5>
-                                            </div>
-                                            <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                            <form class="review-reply">
-                                                <input type="text" placeholder="reply your thoughts">
-                                                <button><i class="icofont-reply"></i>reply</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="review-item">
-                                    <div class="review-media">
-                                        <a class="review-avatar" href="#">
-                                            <img src="images/avatar/04.jpg" alt="review">
-                                        </a>
-                                        <h5 class="review-meta">
-                                            <a href="#">shipu shikdar</a>
-                                            <span>June 02, 2020</span>
-                                        </h5>
-                                    </div>
-                                    <ul class="review-rating">
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rating"></li>
-                                        <li class="icofont-ui-rate-blank"></li>
-                                    </ul>
-                                    <p class="review-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus hic amet qui velit, molestiae suscipit perferendis, autem doloremque blanditiis dolores nulla excepturi ea nobis!</p>
-                                    <form class="review-reply">
-                                        <input type="text" placeholder="reply your thoughts">
-                                        <button><i class="icofont-reply"></i>reply</button>
-                                    </form>
-                                </li>
+                                    <p class="review-desc">{{item.review}}</p>
+                                
+                                </li>   
+                                {% endfor %}
+                                    
+                                
+
                             </ul>
                         </div>
                         <div class="product-details-frame">
@@ -265,16 +217,7 @@
                                             <textarea class="form-control" placeholder="Describe"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <input type="email" class="form-control" placeholder="Email">
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-lg-12">
                                         <button class="btn btn-inline">
                                             <i class="icofont-water-drop"></i>
