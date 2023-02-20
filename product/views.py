@@ -9,6 +9,7 @@ from .forms import ProductReviewForm
 
 class ProductList(ListView):
     model = Product
+    paginate_by = 50
 
 
 
