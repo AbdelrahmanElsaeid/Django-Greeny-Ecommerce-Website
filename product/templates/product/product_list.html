@@ -416,23 +416,34 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="bottom-paginate">
-                                    <p class="page-info">Showing 12 of 60 Results</p>
+                                    <p class="page-info">Showing 50 of {{all_count}} Results</p>
                                     <ul class="pagination">
+
+                                        
+                                        {% if page_obj.has_previous %}
                                         <li class="page-item">
-                                            <a class="page-link" href="#">
+                                            <a class="page-link" href="?page={{page_obj.previous_page_number}}">
                                                 <i class="fas fa-long-arrow-alt-left"></i>
                                             </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">...</li>
-                                        <li class="page-item"><a class="page-link" href="#">60</a></li>
+                                        </li>   
+                                        {% endif %}
+                                            
+                                        
+                                        <li class="page-item"><a class="page-link active" style= "width:130px; border-radius:10px" href="#">
+                                            Page{{page_obj.number}} of {{page_obj.paginator.num_pages}}
+                                        </a></li>
+                                  
+                                        
+                                        
+                                        {% if page_obj.has_next %}
                                         <li class="page-item">
-                                            <a class="page-link" href="#">
+                                            <a class="page-link" href="?page={{page_obj.next_page_number}}">
                                                 <i class="fas fa-long-arrow-alt-right"></i>
                                             </a>
-                                        </li>
+                                        </li>  
+                                        {% endif %}
+                                            
+                                        
                                     </ul>
                                 </div>
                             </div>
