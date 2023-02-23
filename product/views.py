@@ -1,6 +1,6 @@
 from django.shortcuts import render ,redirect
 from django.views.generic import ListView,DetailView
-from .models import Product
+from .models import Product, Brand
 from .forms import ProductReviewForm
 # Create your views here.
 
@@ -36,3 +36,9 @@ def add_review(request,slug):
             myform.save()
     return redirect(f'/products/{product.slug}')        
 
+
+
+class BrandList(ListView):
+    model = Brand
+    paginate_by = 50
+    extra_context = {'add_count': Brand.objects.all().count()}
