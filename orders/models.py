@@ -8,10 +8,9 @@ from utils.Generate_code import generate_code
 
 
 CART_STATUS = (
-    ('Recieved' , 'Recieved'),
-    ('Processed' , 'Processed'),
-    ('Shipped' , 'Shipped'),
-    ('Delivered' , 'Delivered')
+    ('Inprogress' , 'Inprogress'),
+    ('Completed' , 'Completed'),
+   
     )
 
 class Cart(models.Model):
@@ -62,7 +61,8 @@ class OredrDetail(models.Model):
     order = models.ForeignKey(Order, related_name='order_detail', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='order_product', on_delete= models.SET_NULL, null=True,blank=True)
     quantiy = models.IntegerField()
-    price = models.FloatField
+    price = models.FloatField()
+
 
 
 
