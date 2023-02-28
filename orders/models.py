@@ -60,7 +60,7 @@ class Order(models.Model):
 class OredrDetail(models.Model):
     order = models.ForeignKey(Order, related_name='order_detail', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='order_product', on_delete= models.SET_NULL, null=True,blank=True)
-    quantiy = models.IntegerField()
+    quantity = models.IntegerField()
     price = models.FloatField()
 
 
@@ -68,3 +68,17 @@ class OredrDetail(models.Model):
 
     def __str__(self):
         return str(self.order)
+    
+
+
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=10)
+    value = models.FloatField()
+    from_date = models.DateField(default=timezone.now)
+    to_date = models.DateField(default=timezone.now)
+    quantity = models.IntegerField()
+    image = models.ImageField(upload_to='coupon/')
+
+    def __str__(self):
+        return self.code   
