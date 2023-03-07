@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Product
 from .serializers import ProductSerializer
-from rest_framework.generics import ListAPIView , RetrieveAPIView
+from rest_framework.generics import ListAPIView , RetrieveAPIView, RetrieveUpdateDestroyAPIView
 
 
 
@@ -20,7 +20,7 @@ class ProductListApi(ListAPIView):
 
 
 
-class ProductDetailAPI(RetrieveAPIView):
+class ProductDetailAPI(RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all() 
     lookup_field = 'slug'   
