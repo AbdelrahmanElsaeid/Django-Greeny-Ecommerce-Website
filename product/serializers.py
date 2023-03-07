@@ -21,3 +21,10 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class BrandDetailSerializer(serializers.ModelSerializer):
+    product = BrandSerializer(source='product_brand', many=True)
+    class Meta:
+        model = Brand
+        fields = '__all__'        
