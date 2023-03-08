@@ -28,12 +28,21 @@ class ProductImagesApi(serializers.ModelSerializer):
         fields = ['image']   
 
 class ProductSerializer(serializers.ModelSerializer):
-    #brand = BrandSerializer()
+    
+    brand = serializers.StringRelatedField()
+    price_with_tax = serializers.SerializerMethodField()
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def get_price_with_tax(self,product):
+        return product.price*1.1    
+
+class ProductDetailSerializer(serializers.ModelSerializer):
+
     brand = serializers.StringRelatedField()
     reviews = ProductReviewSerializer(source='product_review', many=True)
     images = ProductImagesApi(source='product_images', many=True)
     class Meta:
         model = Product
-        fields = '__all__'
-
-     
+        fields = '__all__'     
