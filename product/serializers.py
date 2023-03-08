@@ -25,7 +25,7 @@ class BrandDetailSerializer(serializers.ModelSerializer):
 class ProductImagesApi(serializers.ModelSerializer):
     class Meta:
         model = ProductImages
-        fields = '__all__'   
+        fields = ['image']   
 
 class ProductSerializer(serializers.ModelSerializer):
     #brand = BrandSerializer()
