@@ -5,6 +5,8 @@ from .serializers import ProductSerializer, BrandSerializer, BrandDetailSerializ
 from rest_framework.generics import ListAPIView , RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from .mypagination import ProductPagination
+from rest_framework import filters
+from .myfilters import ProductFilter
 
 @api_view(['GET'])
 def product_list_api(request):
@@ -17,9 +19,14 @@ def product_list_api(request):
 class ProductListApi(ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name']
     pagination_class = ProductPagination
+
+
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['price', 'brand']
+
+    filterset_class =  ProductFilter
+    filterset_fields = ['name']
 
 
 
