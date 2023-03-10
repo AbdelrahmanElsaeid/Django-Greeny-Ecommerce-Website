@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from . models import Order, OredrDetail
+from django.shortcuts import render, redirect
+from . models import Order, OredrDetail ,Cart,CartDetail
+from product.models import Product
 from django.views.generic import ListView
 # Create your views here.
 
@@ -15,6 +16,23 @@ class OrderList(ListView):
         
         return queryset
     
+
+def add_to_cart(request):
+    if request.method=='POST':
+        product_id = request.POST['productid']
+        quantity = request.POST['quantity']
+        
+        product = Product.objects.get(id=product_id)
+        cart = Cart.objects.get(user=request.user, status='Inprogress')
+        cart_detail,created = CartDetail.objects.get_or_create(cart=cart,product=product)
+
+        cart_detail.quantiy=int(quantity)
+        cart_detail.price=product.price
+        cart_detail.total=int(quantity)*product.price
+        cart_detail.save()
+    return redirect(f'/products/{product.slug}')
+
+
 
 def checkout(request):
     return render(request, 'orders/checkout.html',{})    

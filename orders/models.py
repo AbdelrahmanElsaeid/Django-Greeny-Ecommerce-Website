@@ -24,16 +24,16 @@ class Cart(models.Model):
 
 
 class CartDetail(models.Model):
-    order = models.ForeignKey(Cart, related_name='cart_detail', on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, related_name='cart_detail', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, related_name='cart_product', on_delete= models.SET_NULL, null=True,blank=True)
-    quantiy = models.IntegerField()
-    price = models.FloatField
-    total = models.FloatField()
+    quantiy = models.IntegerField(default=1)
+    price = models.FloatField(null=True,blank=True)
+    total = models.FloatField(null=True,blank=True)
 
 
 
     def __str__(self):
-        return str(self.order)
+        return str(self.cart)
 
 
 
