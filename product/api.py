@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .mypagination import ProductPagination
 from rest_framework import filters
 from .myfilters import ProductFilter
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET'])
 def product_list_api(request):
@@ -20,13 +21,11 @@ class ProductListApi(ListAPIView):
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     pagination_class = ProductPagination
-
-
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     ordering_fields = ['price', 'brand']
-
     filterset_class =  ProductFilter
     filterset_fields = ['name']
+    permission_classes = [IsAuthenticated]
 
 
 
