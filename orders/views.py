@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from . models import Order, OredrDetail ,Cart,CartDetail
 from product.models import Product
 from django.views.generic import ListView
+from settings.models import DeliveryFee
 # Create your views here.
 
 
@@ -35,4 +36,9 @@ def add_to_cart(request):
 
 
 def checkout(request):
-    return render(request, 'orders/checkout.html',{})    
+    cart = Cart.objects.get(user=request.user, status='Inprogress')
+    cart_detail = CartDetail.objects.filter(cart=cart)
+    delivery_fee = DeliveryFee.objects.last()
+    total = cart.get_total()
+
+    return render(request, 'orders/checkout.html',{'cart': cart , 'cart_detail': cart_detail, 'delivery_fee': delivery_fee, 'total': total})    
