@@ -5,7 +5,10 @@ from .forms import ProductReviewForm
 # Create your views here.
 
 
+def Product_list_debug(request):
+    data = Product.objects.all().prefetch_related('brand')
 
+    return render(request, 'product/product_test.html', {'data':data})
 
 class ProductList(ListView):
     model = Product

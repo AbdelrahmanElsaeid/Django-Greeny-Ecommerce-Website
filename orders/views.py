@@ -3,6 +3,7 @@ from . models import Order, OredrDetail ,Cart,CartDetail
 from product.models import Product
 from django.views.generic import ListView
 from settings.models import DeliveryFee
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -34,7 +35,7 @@ def add_to_cart(request):
     return redirect(f'/products/{product.slug}')
 
 
-
+@login_required
 def checkout(request):
     cart = Cart.objects.get(user=request.user, status='Inprogress')
     cart_detail = CartDetail.objects.filter(cart=cart)

@@ -25,7 +25,7 @@ class Cart(models.Model):
         total = 0
         cart_detail = self.cart_detail.all()
         for product in cart_detail:
-            total+=product.total
+            total += product.total
         return total    
 
 class CartDetail(models.Model):
