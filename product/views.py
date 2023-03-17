@@ -2,11 +2,24 @@ from django.shortcuts import render ,redirect
 from django.views.generic import ListView,DetailView
 from .models import Product, Brand
 from .forms import ProductReviewForm
+from django.db.models import Q , F
+from django.db.models.aggregates import Avg, Sum, Count, Max 
 # Create your views here.
 
 
 def Product_list_debug(request):
-    data = Product.objects.all().prefetch_related('brand')
+
+    '''
+    - prefetch_related ------> many-to-many
+    - select_related   ------> one-to-one     one-to-many
+
+    '''
+    #data = Product.objects.all().prefetch_related('brand')
+    #data = Product.objects.filter(Q(price__gt=50) & Q(name__contains='avid'))    or & and operations
+    data = Product.objects.filter(sku =F('price'))   # compare two column
+
+    data = Product.objects.aggregate(Avg('price'))
+
 
     return render(request, 'product/product_test.html', {'data':data})
 

@@ -7,9 +7,10 @@
     <title>Document</title>
 </head>
 <body>
+    {{data}}
     <ul>
         {% for object in data  %}
-        <li>{{object}} - {{object.brand}}</li>
+        <li>{{object}} - {{object.price}}</li>
         {% endfor %}
     </ul>  
     
