@@ -16,9 +16,11 @@ def Product_list_debug(request):
     '''
     #data = Product.objects.all().prefetch_related('brand')
     #data = Product.objects.filter(Q(price__gt=50) & Q(name__contains='avid'))    or & and operations
-    data = Product.objects.filter(sku =F('price'))   # compare two column
+    #data = Product.objects.filter(sku =F('price'))   # compare two column
 
-    data = Product.objects.aggregate(Avg('price'))
+    #data = Product.objects.aggregate(Avg('price'))
+
+    data = Product.objects.annotate(new_column=F('price')*1.5)  # add new column and do operations on it from another column
 
 
     return render(request, 'product/product_test.html', {'data':data})
