@@ -4,9 +4,14 @@ from .models import Product, Brand
 from .forms import ProductReviewForm
 from django.db.models import Q , F
 from django.db.models.aggregates import Avg, Sum, Count, Max 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
+
 # Create your views here.
 
 
+@cache_page(60)
 def Product_list_debug(request):
 
     '''
@@ -69,6 +74,7 @@ class BrandDetail(ListView):
     paginate_by = 50
     template_name = 'product/brand_detail.html'  
 
+    #@method_decorator(cache_page(60))                      # use cache in cbv
     def get_queryset(self):
         brand = Brand.objects.get(slug=self.kwargs['slug'])
         queryset = Product.objects.filter(brand=brand)
