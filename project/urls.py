@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/',include('product.urls',namespace='products')),
     path('orders/',include('orders.urls',namespace='orders')),
-    path('__debug__/', include('debug_toolbar.urls')),    
+    path('__debug__/', include('debug_toolbar.urls')), 
+    path('i18n/', include('django.conf.urls.i18n')),   
 
 ]
 

@@ -59,6 +59,7 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -163,3 +164,11 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379',
     }
 }
+
+
+LOCALE_PATHS = ['locale']
+
+LANGUAGES = [
+    ('ar', ('Arabic')),
+    ('en', ('English')),
+]
