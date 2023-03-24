@@ -173,3 +173,6 @@ LANGUAGES = [
     ('ar', ('Arabic')),
     ('en', ('English')),
 ]
+
+
+LOGIN_REDIRECT_URL = '/'

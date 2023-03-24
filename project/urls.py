@@ -20,6 +20,7 @@ from django.conf import settings
 from settings.views import home
 
 urlpatterns = [
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', home),
     path('admin/', admin.site.urls),
     path('products/',include('product.urls',namespace='products')),
