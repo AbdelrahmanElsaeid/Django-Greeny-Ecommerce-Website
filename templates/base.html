@@ -1,7 +1,8 @@
-{% load static %}
 {% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="en" {% if LANGUAGE_CODE == 'ar' %} dir='rtl' {% endif %}>
+<html lang="en" {% if LANGUAGE_CODE == 'ar' %} dir="rtl"{% endif %}>
     <head>
         <!--=====================================
                     META TAG PART START
@@ -31,14 +32,12 @@
         =======================================-->
         <!-- FAVICON -->
         <link rel="icon" href="images/favicon.png">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% language 'en' %}
-
+        
+        {% if LANGUAGE_CODE == 'en' %}
             <!-- FONTS -->
             <link rel="stylesheet" href="{% static 'en/fonts/flaticon/flaticon.css' %}">
             <link rel="stylesheet" href="{% static 'en/fonts/icofont/icofont.min.css' %}">
             <link rel="stylesheet" href="{% static 'en/fonts/fontawesome/fontawesome.min.css' %}">
-
             <!-- VENDOR -->
             <link rel="stylesheet" href="{% static 'en/vendor/venobox/venobox.min.css' %}">
             <link rel="stylesheet" href="{% static 'en/vendor/slickslider/slick.min.css' %}">
@@ -47,27 +46,25 @@
 
             <!-- CUSTOM -->
             <link rel="stylesheet" href="{% static 'en/css/main.css' %}">
-        {% endlanguage %}
-        {% language 'ar' %}
+        {% else %}
             <!-- FONTS -->
             <link rel="stylesheet" href="{% static 'ar/fonts/flaticon/flaticon.css' %}">
             <link rel="stylesheet" href="{% static 'ar/fonts/icofont/icofont.min.css' %}">
             <link rel="stylesheet" href="{% static 'ar/fonts/fontawesome/fontawesome.min.css' %}">
-
             <!-- VENDOR -->
-            <link rel="stylesheet" href="{% static 'ar/vardor/venobox/venobox.min.css' %}">
+            <link rel="stylesheet" href="{% static 'ar/vendor/venobox/venobox.min.css' %}">
             <link rel="stylesheet" href="{% static 'ar/vendor/slickslider/slick.min.css' %}">
             <link rel="stylesheet" href="{% static 'ar/vendor/niceselect/nice-select.min.css' %}">
             <link rel="stylesheet" href="{% static 'ar/vendor/bootstrap/bootstrap.min.css' %}">
 
             <!-- CUSTOM -->
             <link rel="stylesheet" href="{% static 'ar/css/main.css' %}">
+        
+        {% endif %}
 
-        {% endlanguage %}
+
         {% block css %}
             <link rel="stylesheet" href="{% static 'en/css/index.css' %}">
-
-            
         {% endblock css %}
             
         <!--=====================================
@@ -143,9 +140,15 @@
                     <a href="index.html" class="header-logo">
                         <img src="{{company.logo.url}}" alt="logo">
                     </a>
-                    <a href="login.html" class="header-widget" title="My Account">
-                        <img src="images/user.png" alt="user">
-                        <span>join</span>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'accounts:profile' %}" class="header-widget" title="My Account">
+                            <img src="{{request.user.profile.image.url}}" alt="user">
+                    {% else %}
+                        <a href="{% url 'login' %}" class="header-widget" title="Login">
+                        <a href="login.html" class="header-widget" title="SignUp">
+                    {% endif %}        
+
+
                     </a>
 
                     <form class="header-form">
