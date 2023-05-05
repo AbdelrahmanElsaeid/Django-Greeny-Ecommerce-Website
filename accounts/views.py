@@ -3,6 +3,9 @@ from .forms import SignupForm
 from .models import Profile, UserNumbers,UserAddress
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from product.models import Product,Brand,ProductReview
+from orders.models import Order
 # Create your views here.
 
 @login_required
@@ -50,3 +53,33 @@ def user_activate(request,username):
 
 
     return render(request, 'registration/activate.html',{})
+
+
+def dashboard(request):
+    users = User.objects.count()
+    products = Product.objects.count()
+    brands = Brand.objects.count()
+    reviews = ProductReview.objects.count()
+    orders = Order.objects.count()
+
+    recivied_order = Order.objects.filter(status='Recieved').count()
+    processed_order = Order.objects.filter(status='Processed').count()
+    shipped_order = Order.objects.filter(status='Shipped').count()
+    delivered_order = Order.objects.filter(status='Delivered').count()
+
+
+    return render(request, 'accounts/dashboard.html',{
+        'users':users,
+        'products':products,
+        'brands':brands,
+        'reviews':reviews,
+        'orders':orders,
+        'recivied_order':recivied_order,
+        'processed_order':processed_order,
+        'shipped_order':shipped_order,
+        'delivered_order':delivered_order
+
+
+
+
+    })
