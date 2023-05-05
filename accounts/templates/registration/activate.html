@@ -24,6 +24,7 @@
                     <p>or</p>
                 </div>
                 <form class="user-form" method = "POST">
+                    {% csrf_token %}
                     <div class="form-group">
                         <input type="text" name = "code" class="form-control" placeholder="Enter your Activation code">
                     </div>

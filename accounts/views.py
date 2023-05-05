@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect
 from .forms import SignupForm
-from .models import Profile
+from .models import Profile, UserNumbers,UserAddress
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
-def Profile(request):
-    return render(request, 'accounts/profile.html', {})
+@login_required
+def profile(request):
+    profile = Profile.objects.get(user=request.user)
+    numbers = UserNumbers.objects.filter(user=request.user)
+    address = UserAddress.objects.filter(user = request.user)
+    return render(request, 'accounts/profile.html', {'profile':profile, 'numbers':numbers, 'address': address })
 
 
 
@@ -34,7 +38,7 @@ def Signup(request):
 
 
 def user_activate(request,username):
-    profile =Profile.objects.get(User__username=username)
+    profile =Profile.objects.get(user__username=username)
     if request.method == 'POST':
         code = request.POST['code']
         if code == profile.code:
