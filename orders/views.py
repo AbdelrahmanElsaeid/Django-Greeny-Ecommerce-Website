@@ -6,6 +6,8 @@ from settings.models import DeliveryFee
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 import datetime
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 # Create your views here.
 
 
@@ -47,7 +49,7 @@ def checkout(request):
 
 
     if request.method=='POST':
-        coupon_name = request.POST['coupon']
+        coupon_name = request.POST['code']
         coupon = get_object_or_404(Coupon, code = coupon_name)
         today_date = datetime.datetime.today().date()
         if coupon and coupon.quantity > 0:
@@ -55,7 +57,18 @@ def checkout(request):
                 code_value = round(cart.get_total()/100 * coupon.value,2)
                 total = cart.get_total() - code_value
                 total = total + delivery_fee.fee
-                print(code_value)
+                
+                html = render_to_string('includes/checkout_result.html',{
+                    'cart': cart ,
+                    'cart_detail': cart_detail,
+                    'delivery_fee': delivery_fee.fee,
+                    'total': total,
+                    'discount':code_value,
+                    'subtotal':cart.get_total()
+
+                })
+
+                return JsonResponse({'result':html})
 
 
 
