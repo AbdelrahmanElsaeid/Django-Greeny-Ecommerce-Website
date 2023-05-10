@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
-from . models import Order, OredrDetail ,Cart,CartDetail
+from . models import Order, OredrDetail ,Cart,CartDetail,Coupon
 from product.models import Product
 from django.views.generic import ListView
 from settings.models import DeliveryFee
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+import datetime
 # Create your views here.
 
 
@@ -40,6 +42,28 @@ def checkout(request):
     cart = Cart.objects.get(user=request.user, status='Inprogress')
     cart_detail = CartDetail.objects.filter(cart=cart)
     delivery_fee = DeliveryFee.objects.last()
-    total = cart.get_total()
+    total = cart.get_total() + delivery_fee.fee
+    code_value=0
 
-    return render(request, 'orders/checkout.html',{'cart': cart , 'cart_detail': cart_detail, 'delivery_fee': delivery_fee, 'total': total})    
+
+    if request.method=='POST':
+        coupon_name = request.POST['coupon']
+        coupon = get_object_or_404(Coupon, code = coupon_name)
+        today_date = datetime.datetime.today().date()
+        if coupon and coupon.quantity > 0:
+            if today_date >= coupon.from_date and today_date < coupon.to_date:
+                code_value = round(cart.get_total()/100 * coupon.value,2)
+                total = cart.get_total() - code_value
+                total = total + delivery_fee.fee
+                print(code_value)
+
+
+
+    return render(request, 'orders/checkout.html',{
+        'cart': cart ,
+        'cart_detail': cart_detail,
+        'delivery_fee': delivery_fee.fee,
+        'total': total,
+        'discount':code_value,
+        'subtotal':cart.get_total()
+        })    

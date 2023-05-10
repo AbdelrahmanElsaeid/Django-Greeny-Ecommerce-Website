@@ -73,16 +73,17 @@
                                 </div>
                                 <div class="chekout-coupon">
                                     <button class="coupon-btn">Do you have a coupon code?</button>
-                                    <form class="coupon-form">
-                                        <input type="text" placeholder="Enter your coupon code">
-                                        <button type="submit"><span>apply</span></button>
+                                    <form class="coupon-form" method= 'post'>
+                                        {% csrf_token %}
+                                        <input type="text" name='coupon' placeholder="Enter your coupon code">
+                                        <button type="submit" ><span>apply</span></button>
                                     </form>
                                 </div>
                                 <div class="checkout-charge">
                                     <ul>
                                         <li>
                                             <span>Sub total</span>
-                                            <span>$267.45</span>
+                                            <span>${{subtotal}}</span>
                                         </li>
                                         <li>
                                             <span>delivery fee</span>
@@ -90,7 +91,7 @@
                                         </li>
                                         <li>
                                             <span>discount</span>
-                                            <span>$00.00</span>
+                                            <span>${{discount}}</span>
                                         </li>
                                         <li>
                                             <span>Total<small>(Incl. VAT)</small></span>
