@@ -83,3 +83,17 @@ def dashboard(request):
 
 
     })
+
+
+
+from .tasks import celery_send_emails
+
+def send_email(request):
+    
+
+    celery_send_emails.delay(10)
+      
+            
+    
+
+    return render(request, 'result.html', {})

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import profile, Signup, user_activate,dashboard
+from .views import profile, Signup, user_activate,dashboard,send_email
 
 
 
@@ -14,5 +14,6 @@ urlpatterns = [
     path('dashboard',dashboard,name='dashboard'),
     path('profile/',profile,name='profile'),
     path('signup/',Signup,name='signup'),
+    path('send-email',send_email, name='send_email'),
 
 ]
