@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'settings',
     'debug_toolbar',
     'taggit',
+    'dj_rest_auth'
     
 ]
 
@@ -187,3 +188,11 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+
+
+
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_COOKIE': 'jwt-auth',
+}

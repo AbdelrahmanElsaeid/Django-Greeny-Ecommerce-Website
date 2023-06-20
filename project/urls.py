@@ -20,6 +20,7 @@ from django.conf import settings
 from settings.views import home
 
 urlpatterns = [
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('', home),
