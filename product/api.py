@@ -25,7 +25,7 @@ class ProductListApi(ListAPIView):
     ordering_fields = ['price', 'brand']
     filterset_class =  ProductFilter
     filterset_fields = ['name']
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
 
 
