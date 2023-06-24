@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ProductList, ProductDetail, add_review, BrandList, BrandDetail, Product_list_debug 
+from .views import ProductList, ProductDetail, add_review, BrandList, BrandDetail, Product_list_debug #,product_list_with_ajax
 from .api import product_list_api, ProductListApi, ProductDetailAPI, BrandApi, BrandDetailApi
 app_name = 'product'
 
@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/list/cbv/<slug:slug>', ProductDetailAPI.as_view()),
 
 
-
+   # path('', product_list_with_ajax, name='product_list2'),
     path('', ProductList.as_view(),name='product_list'),
     path('debug', Product_list_debug, name='product_list_debug'),
 

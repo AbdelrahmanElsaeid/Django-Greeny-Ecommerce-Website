@@ -34,12 +34,13 @@
                         </div>
                         <div class="shop-widget">
                             <h6 class="shop-widget-title">Filter by Price</h6>
-                            <form>
+                            <form id="filter_by_price" method="get" action="{% url 'products:product_list' %}">
+                                {% csrf_token %}
                                 <div class="shop-widget-group">
-                                    <input type="text" placeholder="Min - 00">
-                                    <input type="text" placeholder="Max - 5k">
+                                    <input type="text" name="min_value" placeholder="Min - 00">
+                                    <input type="text" name="max_value" placeholder="Max - 5k">
                                 </div>
-                                <button class="shop-widget-btn">
+                                <button type="submit" class="shop-widget-btn">
                                     <i class="fas fa-search"></i>
                                     <span>search</span>
                                 </button>
@@ -455,5 +456,28 @@
         <!--=====================================
                     SHOP PART END
         =======================================-->
-    {% endblock body %}        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function(e){
+        $(document).on('submit', '#filter_by_price', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type:$(this).attr('method'),
+                url:$(this).attr('action'),
+                data:$(this).serialize(),
+                dataType:'json',
+                success:function(response){
+                    console.log(response)
+                    $('#product_list_div').html(response['result'])
+                },
+                error:function(err){
+                    console.log(err)
+                }
+            })
+            
+        })
+    })
+
+</script> 
+{% endblock body %}        
 

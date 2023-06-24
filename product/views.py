@@ -85,3 +85,18 @@ class BrandDetail(ListView):
         context["brand"] = Brand.objects.get(slug=self.kwargs['slug'])
         return context
       
+
+# def is_ajax(request):
+#     return request.META.get('HTTP_X_REQUESTED_WITH')=='XMLHttpRequest'
+
+
+# def product_list_with_ajax(request):
+#     product = Product.objects.all()
+#     if is_ajax(request=request):
+#         print('in ajax')
+#         min_price = request.GET['min_value']
+#         max_price = request.GET['max_value']
+#         queryset = Product.objects.filter(price__gt=min_price, price__lt=max_price)
+#         html = render_to_string('include/product_list_div.html',{'object_list':queryset , request:request})
+#         return JsonResponse({'result':html})
+#     return render(request,'products/product_list.html',{'object_list':product})
