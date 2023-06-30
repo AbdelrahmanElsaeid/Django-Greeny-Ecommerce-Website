@@ -90,10 +90,7 @@ from .tasks import celery_send_emails
 
 def send_email(request):
     
-
+    print('sending email to 5m')
     celery_send_emails.delay(10)
       
-            
-    
-
     return render(request, 'result.html', {})

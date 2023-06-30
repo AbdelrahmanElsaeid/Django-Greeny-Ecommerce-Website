@@ -140,7 +140,7 @@
                     <a href="index.html" class="header-logo">
                         <img src="{{company.logo.url}}" alt="logo">
                     </a>
-                    {% if user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                         <a href="{% url 'accounts:profile' %}" class="header-widget" title="My Account">
                             <img src="{{request.user.profile.image.url}}" alt="user">
                     {% else %}

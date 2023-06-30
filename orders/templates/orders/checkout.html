@@ -75,7 +75,7 @@
                                     <button class="coupon-btn">Do you have a coupon code?</button>
                                     <form class="coupon-form" method='post'>
                                         {% csrf_token %}
-                                        <input type="text" name='abdo' id="couponcode" placeholder="Enter your coupon code">
+                                        <input type="text" name='code-c' id="couponcode" placeholder="Enter your coupon code">
                                         <button type="submit" id="applycoupn"><span>apply</span></button>
                                     </form>
                                 </div>
@@ -423,7 +423,7 @@
                 type:'POST',
                 url:"{% url 'orders:checkout' %}",
                 data:{
-                    'code': code ;
+                    'code': code ,
                     'csrfmiddlewaretoken':'{{csrf_token}}'
                 },
                 dataType:'json',
