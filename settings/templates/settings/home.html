@@ -18,7 +18,7 @@
                                 <h1>free home delivery within 24 hours now.</h1>
                                 <p>Lorem ipsum dolor consectetur adipisicing elit modi consequatur eaque expedita porro necessitatibus eveniet voluptatum quis pariatur Laboriosam molestiae architecto excepturi</p>
                                 <div class="banner-btn">
-                                    <a class="btn btn-inline" href="shop-4column.html">
+                                    <a class="btn btn-inline" href="{% url 'products:product_list' %}">
                                         <i class="fas fa-shopping-basket"></i>
                                         <span>shop now</span>
                                     </a>
@@ -78,7 +78,7 @@
                 <ul class="suggest-slider slider-arrow">
                     {% for object in brand %}
                         <li>
-                            <a class="suggest-card" href="shop-4column.html">
+                            <a class="suggest-card" href="{% url 'products:brand_detail' object.slug %}">
                                 <img src="{{object.image.url}}" alt="suggest">
                                 <h5>{{object}}<span>{{object.product_brand.all|length}} items</span></h5>
                             </a>
@@ -135,16 +135,20 @@
                                             <a href="product-video.html">({{object.product_review.all|length}}) </a>
                                     </div>
                                     <h6 class="product-name">
-                                        <a href="product-video.html">{{product}}</a>
+                                        <a href="{% url 'products:product_detail' product.slug %}">{{product}}</a>
                                     </h6>
                                     <h6 class="product-price">
                                         
                                         <span>${{product.price}}<small>/piece</small></span>
                                     </h6>
-                                    <button class="product-add" title="Add to Cart">
-                                        <i class="fas fa-shopping-basket"></i>
-                                        <span>add</span>
-                                    </button>
+                                    <form action="{% url 'orders:add_to_cart' %}" method="post">
+                                        {% csrf_token %}
+                                        <input class="action-input" title="Quantity Number" type="hidden" name="quantity" value="1">
+                                        <input type='hidden' value={{product.id}} name= 'productid'>
+                                        <input class="product-add" type="submit" value="Add to Cart">
+                                            <!--i class="fas fa-shopping-basket"></i-->
+                                            
+                                        </form>
                                     <div class="product-action">
                                         <button class="action-minus" title="Quantity Minus"><i class="icofont-minus"></i></button>
                                         <input class="action-input" title="Quantity Number" type="text" name="quantity" value="1">
