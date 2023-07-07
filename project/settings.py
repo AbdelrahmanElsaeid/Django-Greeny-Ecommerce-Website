@@ -205,3 +205,15 @@ REST_AUTH = {
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 django_heroku.settings(locals())
+
+
+
+
+
+#stripe.api_key = "YOUR_STRIPE_SECRET_KEY"
+
+# STRIPE_PUBLIC_KEY = 'your-stripe-public-key'
+# STRIPE_SECRET_KEY = 'your-stripe-secret-key'
+
+STRIPE_PUBLISHABLE_KEY= 'your-stripe-publishable-key'
+STRIPE_SECRET_KEY= 'your-secret-key'

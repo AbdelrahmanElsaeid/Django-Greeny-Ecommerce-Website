@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
 from . models import Order, OredrDetail ,Cart,CartDetail,Coupon
 from product.models import Product
-from django.views.generic import ListView
+from django.views.generic import ListView , View
 from settings.models import DeliveryFee
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 import datetime
 from django.http import JsonResponse
 from django.template.loader import render_to_string
+from django.conf import settings
+import stripe
+
+
 # Create your views here.
 
 
@@ -78,5 +82,40 @@ def checkout(request):
         'delivery_fee': delivery_fee.fee,
         'total': total,
         'discount':code_value,
+        'publishable_key': settings.STRIPE_PUBLISHABLE_KEY,
         'subtotal':cart.get_total()
         })    
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+class CreateCheckoutSessionView(View):
+   
+    def post(self, request, *args, **kwargs):
+        amount = request.POST.get('amount')
+
+        session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "unit_amount": amount,
+                        "product_data": {
+                            "name": "your product name",
+                            
+                        },
+                    },
+                    "quantity": 1,
+                }
+            ],
+            mode="payment",
+            success_url='http://127.0.0.1:8000/orders/payment/success',
+            cancel_url='http://127.0.0.1:8000/orders/payment/cancel',
+        )
+        return JsonResponse({'sessionId': session.id})
+    
+
+
+
+def success_payment(request):
+    return render(request,"orders/success.html")

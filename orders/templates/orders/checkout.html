@@ -255,7 +255,8 @@
                                 <label for="checkout-check">By making this purchase you agree to our <a href="#">Terms and Conditions</a>.</label>
                             </div>
                             <div class="checkout-proced">
-                                <a href="invoice.html" class="btn btn-inline">proced to checkout</a>
+                                <!--a href="invoice.html" class="btn btn-inline">proced to checkout</a-->
+                                <button id="checkout-button" class="btn btn-inline">Proceed to Checkout</button>
                             </div>
                         </div>
                     </div>
@@ -414,6 +415,52 @@
 
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://js.stripe.com/v3/"></script>
+
+        <script>
+            var stripe = Stripe('{{ publishable_key }}');
+    
+            document.getElementById('checkout-button').addEventListener('click', function() {
+                var amount = parseFloat("{{cart.get_total}}")*100;
+                fetch('/orders/create_checkout_session/', {
+                    method: 'POST',
+                    body: 'amount=' + amount,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    stripe.redirectToCheckout({ sessionId: data.sessionId });
+                })
+                
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script type="text/javascript">
     $(document).ready(function(e){
         $(document).on('click', '#applycoupn', function(e) {
@@ -437,3 +484,5 @@
 
 </script>        
 {% endblock body %}
+
+
