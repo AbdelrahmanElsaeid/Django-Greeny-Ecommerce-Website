@@ -17,6 +17,7 @@ import stripe
 
 
 
+
 class OrderList(ListView):
     model = Order
 
@@ -86,7 +87,6 @@ def checkout(request):
         'subtotal':cart.get_total()
         })    
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateCheckoutSessionView(View):
    
@@ -118,4 +118,25 @@ class CreateCheckoutSessionView(View):
 
 
 def success_payment(request):
+    cart = Cart.objects.get(user=request.user, status='Inprogress')
+    cart_detail = CartDetail.objects.filter(cart=cart)
+
+    new_order = Order.objects.create(
+        user = request.user,
+        status = 'Recieved'
+
+    )
+
+    for item in cart_detail:
+        OredrDetail.objects.create(
+            order = new_order,
+            product = item.product,
+            quantity = item.quantity,
+            price = item.price,
+            total = item.total
+
+        )
+    cart.status='Completed'
+    cart.save()    
+
     return render(request,"orders/success.html")

@@ -208,12 +208,8 @@ django_heroku.settings(locals())
 
 
 
+import stripe
 
-
-#stripe.api_key = "YOUR_STRIPE_SECRET_KEY"
-
-# STRIPE_PUBLIC_KEY = 'your-stripe-public-key'
-# STRIPE_SECRET_KEY = 'your-stripe-secret-key'
-
-STRIPE_PUBLISHABLE_KEY= 'your-stripe-publishable-key'
-STRIPE_SECRET_KEY= 'your-secret-key'
+STRIPE_PUBLISHABLE_KEY= 'pk_test_51NREMBEsOc8lzOUUf8iyrVc2y0Bl6xLRh35xbKVVvTLC30qNHuE5ppdCAA1zMdgQhfV2CuZ6xwFNDESd7lVoYHaU00IDfPW6Df'
+STRIPE_SECRET_KEY= 'sk_test_51NREMBEsOc8lzOUUiDDjXPZjN4x9qDKdAq58aT6VjUz23kl1VyLWHpfeCJmYxEE7k5kdxRGDd4BSbmbdRk1ZeIS000uMyfyf1c'
+stripe.api_key = STRIPE_SECRET_KEY
