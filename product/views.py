@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render ,redirect
 from django.views.generic import ListView,DetailView
 from .models import Product, Brand
@@ -6,6 +7,8 @@ from django.db.models import Q , F
 from django.db.models.aggregates import Avg, Sum, Count, Max 
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.template.loader import render_to_string
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -30,11 +33,89 @@ def Product_list_debug(request):
 
     return render(request, 'product/product_test.html', {'data':data})
 
+
+
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH')=='XMLHttpRequest'
+
+
+def product_list_with_ajax(request):
+    product = Product.objects.all()
+    all_count = Product.objects.all().count()
+    print(all_count)
+    if is_ajax(request=request):
+        print('in ajax')
+        min_price = request.GET['min_value']
+        max_price = request.GET['max_value']
+        queryset = Product.objects.filter(price__gt=min_price, price__lt=max_price)
+        all_count = queryset.count()
+
+    #----------------pagination------start------------------
+        page_num = request.GET.get('page', 1)
+
+        paginator = Paginator(queryset, 50) # 6 employees per page
+
+
+        try:
+            page_obj = paginator.page(page_num)
+        except PageNotAnInteger:
+            # if page is not an integer, deliver the first page
+            page_obj = paginator.page(1)
+        except EmptyPage:
+            # if the page is out of range, deliver the last page
+            page_obj = paginator.page(paginator.num_pages)
+
+
+
+#----------------pagination------end------------------
+
+        html = render_to_string('include/product_list_div.html',{'object_list':page_obj , request:request, 'all_count':all_count})
+        return JsonResponse({'result':html})
+    
+    page_num = request.GET.get('page', 1)
+
+    paginator = Paginator(product, 50) # 6 employees per page
+
+
+    try:
+        page_obj = paginator.page(page_num)
+    except PageNotAnInteger:
+        # if page is not an integer, deliver the first page
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # if the page is out of range, deliver the last page
+        page_obj = paginator.page(paginator.num_pages)
+
+
+
+    # paginator = Paginator(product, 25)  # Show 25 contacts per page.
+
+    # page_number = request.GET.get("page")
+    # page_obj = paginator.get_page(page_number)
+
+
+
+    return render(request,'product/product_list.html',{'object_list':page_obj ,'all_count':all_count})
+
 class ProductList(ListView):
     model = Product
-    paginate_by = 50
+    paginate_by = 20
 
     extra_context = {'all_count': Product.objects.all().count()}
+    
+#------------------filtering by price  without ajax---------------
+    def get_queryset(self):
+        try:
+            min_price = self.request.GET['min_value']
+            max_price = self.request.GET['max_value']
+            queryset = Product.objects.filter(price__gt=min_price, price__lt=max_price)
+            return queryset
+                
+        except:    
+            return super().get_queryset()
+    
 
 
 
@@ -84,19 +165,4 @@ class BrandDetail(ListView):
         context = super().get_context_data(**kwargs)
         context["brand"] = Brand.objects.get(slug=self.kwargs['slug'])
         return context
-      
-
-# def is_ajax(request):
-#     return request.META.get('HTTP_X_REQUESTED_WITH')=='XMLHttpRequest'
-
-
-# def product_list_with_ajax(request):
-#     product = Product.objects.all()
-#     if is_ajax(request=request):
-#         print('in ajax')
-#         min_price = request.GET['min_value']
-#         max_price = request.GET['max_value']
-#         queryset = Product.objects.filter(price__gt=min_price, price__lt=max_price)
-#         html = render_to_string('include/product_list_div.html',{'object_list':queryset , request:request})
-#         return JsonResponse({'result':html})
-#     return render(request,'products/product_list.html',{'object_list':product})
+    

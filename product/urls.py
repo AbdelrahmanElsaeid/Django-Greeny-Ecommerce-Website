@@ -1,11 +1,15 @@
 from django.urls import path
-from .views import ProductList, ProductDetail, add_review, BrandList, BrandDetail, Product_list_debug #,product_list_with_ajax
+from .views import ProductList, ProductDetail, add_review, BrandList, BrandDetail, Product_list_debug  , product_list_with_ajax
 from .api import product_list_api, ProductListApi, ProductDetailAPI, BrandApi, BrandDetailApi
 app_name = 'product'
 
 urlpatterns = [
+    path('', product_list_with_ajax, name='product_list2'),
+    #path('', list, name='product_list2'),
+
+
     #api
-    path('api/list',product_list_api),
+    path('api/list',product_list_api, name='product_list'),
     path('api/list/cbv', ProductListApi.as_view()),
     path('api/list/cbv/brands', BrandApi.as_view()),
     path('api/list/cbv/brands/<slug:slug>', BrandDetailApi.as_view()),
@@ -13,8 +17,7 @@ urlpatterns = [
     path('api/list/cbv/<slug:slug>', ProductDetailAPI.as_view()),
 
 
-   # path('', product_list_with_ajax, name='product_list2'),
-    path('', ProductList.as_view(),name='product_list'),
+   # path('', ProductList.as_view(),name='product_list'),
     path('debug', Product_list_debug, name='product_list_debug'),
 
     path('<slug:slug>', ProductDetail.as_view(),name='product_detail'),
