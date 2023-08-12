@@ -20,5 +20,5 @@
   - Model Queryset API
   - Deploy
   - Testing
-- chart.js
-- Ajax
+  - chart.js
+  - Ajax
